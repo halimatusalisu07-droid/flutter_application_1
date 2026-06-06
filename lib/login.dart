@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'profile.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});
@@ -18,7 +19,7 @@ class Login extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => QuickConsult()),
+                MaterialPageRoute(builder: (context) => const Profile()),
               );
             },
             child: Text("Submit"),

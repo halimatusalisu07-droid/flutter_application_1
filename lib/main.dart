@@ -4,6 +4,7 @@ import 'booking.dart';
 import 'medicine.dart';
 import 'payment.dart';
 import 'contact_us.dart';
+import 'profile.dart';
 
 void main() {
   runApp(
@@ -24,6 +25,18 @@ void main() {
                     MaterialPageRoute(builder: (context) => Consult()),
                   );
                 },
+
+                class Profile extends StatelessWidget {
+  const Profile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: LoginPage(), //
+    );
+  }
+}
                 child: Card(
                   color: Colors.lightBlue[50],
                   child: ListTile(
@@ -44,21 +57,10 @@ void main() {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Booking()),
+                    MaterialPageRoute(builder: (context) => Consult()),
                   );
                 },
                 child: Card(
-                  color: Colors.lightBlue[50],
-                  child: ListTile(
-                    leading: Icon(Icons.book_online),
-                    title: Text(
-                      'Book an appointment',
-                      style: TextStyle(
-                        color: Colors.orange,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
                     subtitle: Text('Book an appointment with a doctor'),
                   ),
                 ),

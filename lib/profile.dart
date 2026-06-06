@@ -10,7 +10,15 @@ class Profile extends StatelessWidget {
       appBar: AppBar(title: Text("Profile Page")),
       body: Column(
         children: [
-          ElevatedButton(onPressed: () {}, child: Text("Select Image")),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Login()),
+              );
+            },
+            child: Text("Select Image"),
+          ),
           Card(
             child: ListTile(
               title: Text("Name"),
