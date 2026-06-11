@@ -1,64 +1,73 @@
 import 'package:flutter/material.dart';
+import 'auth_services.dart';
 
-final AuthService authService = AuthService();
-
-class AuthService {
-  // Simulated async account creation. Replace with real implementation.
-  Future<void> createAccount(String email, String password) async {
-    await Future.delayed(const Duration(seconds: 1));
-    if (email.isEmpty || password.isEmpty) {
-      throw Exception('Email and password must not be empty');
-    }
-    if (!email.contains('@')) {
-      throw Exception('Invalid email address');
-    }
-    if (password.length < 6) {
-      throw Exception('Password must be at least 6 characters');
-    }
-    // Success: in a real app, call backend or Firebase here.
-  }
-}
-
-class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+class Register extends StatefulWidget {
+  const Register({super.key});
 
   @override
-  RegisterPageState createState() => RegisterPageState();
+  State<Register> createState() => _RegisterState();
 }
 
-class RegisterPageState extends State<RegisterPage> {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+class _RegisterState extends State<Register> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  // Use the correct AuthService class from auth_services.dart
+  final AuthService _authServices = AuthService();
 
-  void register() async {
-    final email = emailController.text.trim();
-    final password = passwordController.text;
-    try {
-      await authService.createAccount(email, password);
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Account created successfully')),
-      );
-    } catch (e) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Registration failed: ${e.toString()}')),
-      );
-    }
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Register Page")),
-      body: Center(child: Text("Register Page")),
-    );
-  }
+      appBar: AppBar(
+        title: const Text(
+          "Create Account",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text("Email"),
+            TextFormField(
+              controller: _emailController,
+              keyboardType: TextInputType.emailAddress,
+            ),
+            const SizedBox(height: 15),
+            const Text("Password"),
+            TextFormField(controller: _passwordController, obscureText: true),
+            const SizedBox(height: 30),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () async {
+                  final navigator = Navigator.of(context);
 
-  @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.dispose();
+                  try {
+                    await _authServices.createUserWithEmailAndPassword(
+                      _emailController.text.trim(),
+                      _passwordController.text.trim(),
+                    );
+
+                    navigator.pop();
+                  } catch (e) {
+                    debugPrint("Registration Error: $e");
+                  }
+                },
+                child: const Text("Sign Up"),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
