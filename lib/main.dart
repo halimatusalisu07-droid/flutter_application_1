@@ -1,14 +1,22 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'consult.dart';
-import 'booking.dart';
-import 'medicine.dart';
-import 'payment.dart';
-import 'contact_us.dart';
-import 'profile.dart';
+import 'firebase_options.dart';
+import 'auth_services.dart';
+// Removed import of nonexistent file 'library/register_page.dart'
+// If you need a register page, add the file and import it here.
 
-void main() {
-  runApp(
-    MaterialApp(
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
       home: Builder(
         builder: (context) => Scaffold(
           appBar: AppBar(
@@ -26,17 +34,6 @@ void main() {
                   );
                 },
 
-                class Profile extends StatelessWidget {
-  const Profile({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: LoginPage(), //
-    );
-  }
-}
                 child: Card(
                   color: Colors.lightBlue[50],
                   child: ListTile(
@@ -57,10 +54,21 @@ void main() {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Consult()),
+                    MaterialPageRoute(builder: (context) => Booking()),
                   );
                 },
                 child: Card(
+                  color: Colors.lightBlue[50],
+                  child: ListTile(
+                    leading: Icon(Icons.book_online),
+                    title: Text(
+                      'Book an appointment',
+                      style: TextStyle(
+                        color: Colors.orange,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     subtitle: Text('Book an appointment with a doctor'),
                   ),
                 ),
@@ -138,6 +146,56 @@ void main() {
           ),
         ),
       ),
-    ),
-  );
+    );
+  }
+}
+
+class Consult extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Consult a doctor')),
+      body: Center(child: Text('Consult page content goes here.')),
+    );
+  }
+}
+
+class Booking extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Book an appointment')),
+      body: Center(child: Text('Booking page content goes here.')),
+    );
+  }
+}
+
+class Medicine extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Order medicine online')),
+      body: Center(child: Text('Medicine page content goes here.')),
+    );
+  }
+}
+
+class Payment extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Pay hospital bills online')),
+      body: Center(child: Text('Payment page content goes here.')),
+    );
+  }
+}
+
+class ContactUs extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Contact Us')),
+      body: Center(child: Text('Contact information page content goes here.')),
+    );
+  }
 }

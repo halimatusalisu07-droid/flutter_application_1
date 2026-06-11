@@ -47,6 +47,12 @@ class Profile extends StatelessWidget {
             },
             child: Text("Logout"),
           ),
+          Card(
+            child: ListTile(
+              title: Text("Change username"),
+              subtitle: Text("username"),
+            ),
+          ),
         ],
       ),
     );
