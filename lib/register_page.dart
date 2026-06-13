@@ -11,7 +11,6 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  // Use the correct AuthService class from auth_services.dart
   final AuthService _authServices = AuthService();
 
   @override
@@ -19,6 +18,39 @@ class _RegisterState extends State<Register> {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  // Single, clean registration method
+  void registerUser() async {
+    // Basic validation check
+    if (_emailController.text.trim().isEmpty ||
+        _passwordController.text.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Please fill in all fields")),
+      );
+      return;
+    }
+
+    try {
+      await _authServices.createUserWithEmailAndPassword(
+        _emailController.text.trim(),
+        _passwordController.text.trim(),
+      );
+
+      // Once Firebase registers the user successfully, AuthGate will
+      // automatically push the Dashboard. We just pop the registration
+      // stack to keep the navigation history clean.
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
+    } catch (e) {
+      debugPrint("Registration Error: $e");
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Registration Failed: ${e.toString()}")),
+        );
+      }
+    }
   }
 
   @override
@@ -48,20 +80,8 @@ class _RegisterState extends State<Register> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () async {
-                  final navigator = Navigator.of(context);
-
-                  try {
-                    await _authServices.createUserWithEmailAndPassword(
-                      _emailController.text.trim(),
-                      _passwordController.text.trim(),
-                    );
-
-                    navigator.pop();
-                  } catch (e) {
-                    debugPrint("Registration Error: $e");
-                  }
-                },
+                // Simply call the function here to keep UI code clean
+                onPressed: registerUser,
                 child: const Text("Sign Up"),
               ),
             ),
