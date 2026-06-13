@@ -4,6 +4,7 @@ import 'booking.dart';
 import 'consult.dart';
 import 'medicine.dart';
 import 'contact_us.dart';
+import 'profile.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
@@ -13,6 +14,18 @@ class DashboardPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Quick Consult'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.account_circle),
+            onPressed: () {
+              // Navigate to the profile page when the profile icon is tapped
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Profile()),
+              );
+            },
+          ),
+        ],
         backgroundColor: Colors.blue,
       ),
       body: ListView(
