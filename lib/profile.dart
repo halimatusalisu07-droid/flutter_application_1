@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'login.dart';
+import 'auth_services.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
   const Profile({super.key});
 
+  @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,13 +28,13 @@ class Profile extends StatelessWidget {
           Card(
             child: ListTile(
               title: Text("Name"),
-              subtitle: Text("Malam Jamilu"),
+              subtitle: Text("Halimah Abubakar"),
             ),
           ),
           Card(
             child: ListTile(
               title: Text("Email:"),
-              subtitle: Text("admin@idga.com.ng"),
+              subtitle: Text("halimah@com.ng"),
             ),
           ),
           Card(
@@ -46,12 +52,6 @@ class Profile extends StatelessWidget {
               );
             },
             child: Text("Logout"),
-          ),
-          Card(
-            child: ListTile(
-              title: Text("Change username"),
-              subtitle: Text("username"),
-            ),
           ),
         ],
       ),

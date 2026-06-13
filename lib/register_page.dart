@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'auth_services.dart';
+import 'dashboard.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -80,7 +81,6 @@ class _RegisterState extends State<Register> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                // Simply call the function here to keep UI code clean
                 onPressed: registerUser,
                 child: const Text("Sign Up"),
               ),

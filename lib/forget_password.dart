@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/auth_services.dart' as AuthServices;
+import 'forget_password_sent.dart';
+import 'auth_services.dart';
+import 'reset_link_sent.dart';
 
 class ForgetPassword extends StatelessWidget {
   const ForgetPassword({super.key});
@@ -26,7 +30,16 @@ class ForgetPassword extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ResetLinkSent(),
+                  ),
+                );
+                // Call the password reset function from AuthServices
+                AuthServices.resetPassword('halimatusalisu07@gmail.com');
+              },
               child: const Text('Send Reset Link'),
             ),
           ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'auth_services.dart';
 import 'register_page.dart';
+import 'forget_password.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -82,6 +83,17 @@ class _LoginState extends State<Login> {
                 );
               },
               child: const Text("Don't have an account? Sign Up"),
+            ),
+            // Link to take user to the Forget Password Screen
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const ForgetPassword(),
+                  ),
+                );
+              },
+              child: const Text("Forgot Password?"),
             ),
           ],
         ),

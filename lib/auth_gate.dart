@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'login.dart'; // Path to your login screen
-import 'dashboard.dart'; // Path to your dashboard screen
+import 'dashboard.dart';
+
+// Path to your dashboard screen
 
 class AuthGate extends StatelessWidget {
   const AuthGate({super.key});
