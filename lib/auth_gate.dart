@@ -21,7 +21,6 @@ class AuthGate extends StatelessWidget {
 
         // 2. If the snapshot has user data, the user is logged in
         if (snapshot.hasData) {
-          // Fallback dashboard UI if Dashboard class isn't available
           return const DashboardPage();
         }
 
