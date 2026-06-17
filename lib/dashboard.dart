@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-// These must match your exact file names in the lib/ folder
 import 'booking.dart';
 import 'consult.dart';
 import 'medicine.dart';
 import 'contact_us.dart';
 import 'profile.dart';
+import 'database_service.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
+
+  static final DatabaseService _databaseService = DatabaseService();
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +20,6 @@ class DashboardPage extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.account_circle),
             onPressed: () {
-              // Navigate to the profile page when the profile icon is tapped
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const Profile()),
@@ -31,12 +32,29 @@ class DashboardPage extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
-          // 1. Consult Card
           GestureDetector(
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const Consult()),
-            ),
+            onTap: () async {
+              print("Sending data to Firebase silently...");
+
+              await _databaseService.create(
+                path: 'app_services/service_001',
+                data: {
+                  'name': 'General Consultation',
+                  'type': 'service',
+                  'price': 50,
+                  'description': 'General health checkup session',
+                },
+              );
+
+              print("Firebase data created successfully!");
+
+              if (context.mounted) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Consult()),
+                );
+              }
+            },
             child: const Card(
               child: ListTile(
                 leading: Icon(Icons.local_hospital),
