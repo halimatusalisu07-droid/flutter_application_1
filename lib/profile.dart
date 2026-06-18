@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'firebase_db_buttons.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -21,12 +22,10 @@ class _ProfileState extends State<Profile> {
     _loadUserData();
   }
 
-  // Fetch data from Firebase Auth
   void _loadUserData() {
     _currentUser = _auth.currentUser;
     if (_currentUser != null) {
       setState(() {
-        // If the user hasn't set a display name in Firebase yet, fall back to 'User'
         _displayName = _currentUser!.displayName ?? "User";
         _displayEmail = _currentUser!.email ?? "No Email";
       });
@@ -69,7 +68,6 @@ class _ProfileState extends State<Profile> {
                 if (nameController.text.trim().isNotEmpty &&
                     _currentUser != null) {
                   try {
-                    // Update display name in Firebase Auth profile
                     await _currentUser!.updateDisplayName(
                       nameController.text.trim(),
                     );
@@ -95,7 +93,6 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  // Dialog to handle updating the password in Firebase
   void _showChangePasswordDialog() {
     TextEditingController passwordController = TextEditingController();
 
@@ -119,7 +116,6 @@ class _ProfileState extends State<Profile> {
                 if (passwordController.text.trim().length >= 6 &&
                     _currentUser != null) {
                   try {
-                    // Update password in Firebase Auth
                     await _currentUser!.updatePassword(
                       passwordController.text.trim(),
                     );
@@ -157,9 +153,24 @@ class _ProfileState extends State<Profile> {
       appBar: AppBar(
         title: const Text('Welcome Back'),
         backgroundColor: Colors.blue,
+        // 2. Added an actions list to place the button on the top right header bar
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.build_circle_outlined, color: Colors.white),
+            tooltip: 'Firebase DB Testing',
+            onPressed: () {
+              // Navigates directly over to your CRUD testing panel screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const FirebaseDbButtons(),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
-        // Prevents bottom overflow on smaller screens
         padding: const EdgeInsets.all(12.0),
         child: Column(
           children: [

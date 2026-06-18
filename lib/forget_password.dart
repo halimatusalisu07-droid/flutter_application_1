@@ -1,11 +1,45 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/auth_services.dart' as AuthServices;
-import 'forget_password_sent.dart';
-import 'auth_services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'reset_link_sent.dart';
 
-class ForgetPassword extends StatelessWidget {
+class ForgetPassword extends StatefulWidget {
   const ForgetPassword({super.key});
+
+  @override
+  State<ForgetPassword> createState() => _ForgetPasswordState();
+}
+
+class _ForgetPasswordState extends State<ForgetPassword> {
+  final TextEditingController _emailController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _sendResetLink() async {
+    final email = _emailController.text.trim();
+    if (email.isEmpty) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Please enter your email.')));
+      return;
+    }
+
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      if (!mounted) return;
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const ResetLinkSent()),
+      );
+    } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.message ?? 'Unable to send reset link.')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,25 +55,17 @@ class ForgetPassword extends StatelessWidget {
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),
-            const TextField(
+            TextField(
+              controller: _emailController,
               keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Email',
                 border: OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 16),
             ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ResetLinkSent(),
-                  ),
-                );
-                // Call the password reset function from AuthServices
-                AuthServices.resetPassword('halimatusalisu07@gmail.com');
-              },
+              onPressed: _sendResetLink,
               child: const Text('Send Reset Link'),
             ),
           ],

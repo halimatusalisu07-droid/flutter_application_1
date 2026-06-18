@@ -23,7 +23,7 @@ class AuthGate extends StatelessWidget {
 
         // 2. If the snapshot has user data, the user is logged in
         if (snapshot.hasData) {
-          return const DashboardPage();
+          return const DashboardScreen();
         }
 
         // 3. If there is no data, the user is logged out (show Login)
